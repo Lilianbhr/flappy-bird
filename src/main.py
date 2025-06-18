@@ -1,4 +1,5 @@
 import pygame
+from game import *
 pygame.init()
 
 # fenêtre
@@ -7,18 +8,20 @@ hauteur = 750
 screen = pygame.display.set_mode((largeur, hauteur))
 pygame.display.set_caption("Flappy bird")
 
-# couleurs
-blanc = pygame.Color(255, 255, 255)
-rouge = pygame.Color(255, 255, 255)
+# Modes
+M_menu = Menu(screen, largeur, hauteur)
 
+clock = pygame.time.Clock()
 running_global = True
 while running_global:
-    screen.fill(blanc)
+
+    M_menu.run()
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running_global = False
 
     pygame.display.flip()
+    clock.tick(30)
 
 pygame.quit()
