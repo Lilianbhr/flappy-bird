@@ -12,6 +12,7 @@ M_menu = Menu(screen, largeur, hauteur)
 M_game = Game(screen, largeur, hauteur)
 mode = M_menu
 
+played = False
 clock = pygame.time.Clock()
 running_global = True
 while running_global:
@@ -21,9 +22,13 @@ while running_global:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running_global = False
-        elif event.type == pygame.KEYDOWN :
-            if event.key == pygame.K_SPACE :
-                mode = M_game
+        elif event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_SPACE:
+                if not played:
+                    mode = M_game
+                    played = True
+
+                M_game.space()
 
     pygame.display.flip()
     clock.tick(30)

@@ -1,4 +1,4 @@
-import pygame
+from classes import *
 pygame.init()
 
 # Couleurs
@@ -77,9 +77,19 @@ class Game():
         self.score = 0
         self.font = pygame.font.Font("../assets/font/Jersey15-Regular.ttf", 50)
 
+        self.player = Player(self.largeur, self.hauteur)
+        all_sprites.add(self.player)
+
     def run(self):
         self.screen.blit(self.background, (0, 0))
+
+        self.player.update()
+        all_sprites.draw(self.screen)
+
         self.screen.blit(self.sol, self.sol_pos)
         self.texte = self.font.render(f"{self.score}", True, blanc)
         self.texte_pos = self.texte.get_rect(centerx=round(self.largeur / 2), centery=round(self.hauteur / 5))
         self.screen.blit(self.texte, self.texte_pos)
+
+    def space(self):
+        self.player.flap()
