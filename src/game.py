@@ -6,6 +6,10 @@ blanc = pygame.Color(255, 255, 255)
 noir = pygame.Color(0, 0, 0)
 marron = pygame.Color(175, 110, 0)
 
+# Variables globales
+gap_ver_tuyaux = 150
+pos_gap = (150, 300, 450)
+
 class Menu():
     def __init__(self, screen, largeur_screen, hauteur_screen):
 
@@ -15,6 +19,9 @@ class Menu():
 
         self.background = pygame.image.load("../assets/img/background-day.png").convert_alpha()
         self.background = pygame.transform.scale(self.background, (self.largeur, self.hauteur))
+
+        self.tuyau_img = pygame.image.load("../assets/img/pipe-green.png").convert_alpha()
+        self.tuyau_img = pygame.transform.scale(self.tuyau_img, (70, 600))
 
         self.sol = pygame.image.load("../assets/img/base.png").convert_alpha()
         self.sol = pygame.transform.scale(self.sol, (self.largeur, round(self.largeur / 3)))
@@ -32,7 +39,18 @@ class Menu():
 
     def run(self):
         self.screen.blit(self.background, (0, 0))
+        self.draw_pipes(300, 100)
+        self.draw_pipes(450, 400)
         self.screen.blit(self.sol, self.sol_pos)
         self.screen.blit(self.logo, (round(self.largeur * 0.1), round(self.hauteur * 0.1)))
         self.screen.blit(self.sprite, (round(self.largeur * 0.5 - 25), round(self.hauteur * 0.5 - 25)))
         self.screen.blit(self.texte, self.txt_pos)
+
+    def draw_pipes(self, gap_pos, pos_x):
+        nb1 = pygame.transform.rotate(self.tuyau_img, 180)
+        nb2 = self.tuyau_img
+
+        nb1_pos = nb1.get_rect(centerx = pos_x, bottom = gap_pos - 75)
+        nb2_pos = nb2.get_rect(centerx = pos_x, top = gap_pos + 75)
+        self.screen.blit(nb1, nb1_pos)
+        self.screen.blit(nb2, nb2_pos)
