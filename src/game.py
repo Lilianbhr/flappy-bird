@@ -4,14 +4,13 @@ pygame.init()
 
 # Couleurs
 blanc = pygame.Color(255, 255, 255)
-noir = pygame.Color(0, 0, 0)
-marron = pygame.Color(175, 110, 0)
 
 # Variables globales
 gap = 150
 pos_gap = (200, 300, 400)
 meilleur_score = 0
 count = 0
+count_bis = 0
 menu = True
 speed = 5
 
@@ -31,6 +30,8 @@ class Menu():
     def __init__(self, screen, largeur_screen, hauteur_screen):
         global speed
         global menu
+        global count_bis
+        global  count
         menu = True
 
         self.screen = screen
@@ -62,6 +63,7 @@ class Menu():
         self.texte_pos = self.texte.get_rect(centerx=self.best_score_pos.centerx, bottom=self.best_score_pos.bottom+5)
 
         add_pipes(self.hauteur/2, self.largeur, gap, speed)
+        count_bis = count + 70
 
     def run(self):
         self.screen.blit(self.background, (0, 0))
@@ -99,7 +101,6 @@ class Game():
         self.sol = pygame.transform.scale(self.sol, (self.largeur, round(self.largeur / 3)))
         self.sol_pos = self.sol.get_rect(x=0, bottom=self.hauteur)
 
-        self.score = 0
         self.font = pygame.font.Font("../assets/font/Jersey15-Regular.ttf", 50)
 
         self.player = Player(self.largeur, self.hauteur)
@@ -109,20 +110,31 @@ class Game():
         global count
         global pos_gap
         global speed
+        global count_bis
+        global meilleur_score
 
         self.screen.blit(self.background, (0, 0))
 
         count -= speed
+        count_bis -= speed
+
         if count <= self.player.rect.right:
             pos = choice(pos_gap)
             add_pipes(pos, self.largeur, gap, speed)
         all_sprites.update()
         all_sprites.draw(self.screen)
 
+        if count_bis <= self.player.rect.x :
+            self.player.score += 1
+            count_bis = count + 70
+
         self.screen.blit(self.sol, self.sol_pos)
-        self.texte = self.font.render(f"{self.score}", True, blanc)
+        self.texte = self.font.render(f"{self.player.score}", True, blanc)
         self.texte_pos = self.texte.get_rect(centerx=round(self.largeur / 2), centery=round(self.hauteur / 5))
         self.screen.blit(self.texte, self.texte_pos)
+
+        if self.player.score > meilleur_score :
+            meilleur_score = self.player.score
 
     def space(self):
         self.player.flap()

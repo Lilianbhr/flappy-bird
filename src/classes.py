@@ -19,6 +19,7 @@ class Player(pygame.sprite.Sprite):
         self.vitesse_vertical = 0
         self.angle = 0
         self.game_over = False
+        self.score = 0
 
     def update(self):
         self.vitesse_vertical += gravity
