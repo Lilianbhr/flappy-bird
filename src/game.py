@@ -1,6 +1,5 @@
-import pygame.image
-
 from classes import *
+from random import choice
 pygame.init()
 
 # Couleurs
@@ -9,12 +8,30 @@ noir = pygame.Color(0, 0, 0)
 marron = pygame.Color(175, 110, 0)
 
 # Variables globales
-gap_ver_tuyaux = 150
-pos_gap = (150, 300, 450)
+gap = 150
+pos_gap = (200, 300, 400)
 meilleur_score = 0
+count = 0
+menu = True
+speed = 5
+
+def add_pipes(pos_vertical_du_trou, largeur_screen, taille_gap, speed):
+    global count
+    pipe = Pipes(pos_vertical_du_trou, largeur_screen, 0, taille_gap, speed)
+    if menu :
+        pipe.rect.centerx = largeur_screen/ 5 * 4
+    all_sprites.add(pipe)
+    pipe = Pipes(pos_vertical_du_trou, largeur_screen, 180, taille_gap, speed)
+    if menu :
+        pipe.rect.centerx = largeur_screen / 5 * 4
+    all_sprites.add(pipe)
+    count = pipe.rect.x
 
 class Menu():
     def __init__(self, screen, largeur_screen, hauteur_screen):
+        global speed
+        global menu
+        menu = True
 
         self.screen = screen
         self.largeur = largeur_screen
@@ -43,8 +60,12 @@ class Menu():
         self.font = pygame.font.Font("../assets/font/Jersey15-Regular.ttf", 50)
         self.texte = self.font.render(f"{meilleur_score}", True, blanc)
         self.texte_pos = self.texte.get_rect(centerx=self.best_score_pos.centerx, bottom=self.best_score_pos.bottom+5)
+
+        add_pipes(self.hauteur/2, self.largeur, gap, speed)
+
     def run(self):
         self.screen.blit(self.background, (0, 0))
+        all_sprites.draw(self.screen)
         self.screen.blit(self.sol, self.sol_pos)
         self.screen.blit(self.logo, (round(self.largeur * 0.1), round(self.hauteur * 0.1)))
         self.screen.blit(self.sprite, self.sprite_rect)
@@ -60,6 +81,9 @@ class Menu():
 
 class Game():
     def __init__(self, screen, largeur_screen, hauteur_screen):
+
+        global menu
+        menu = False
 
         self.screen = screen
         self.largeur = largeur_screen
@@ -82,9 +106,17 @@ class Game():
         all_sprites.add(self.player)
 
     def run(self):
+        global count
+        global pos_gap
+        global speed
+
         self.screen.blit(self.background, (0, 0))
 
-        self.player.update()
+        count -= speed
+        if count <= self.player.rect.right:
+            pos = choice(pos_gap)
+            add_pipes(pos, self.largeur, gap, speed)
+        all_sprites.update()
         all_sprites.draw(self.screen)
 
         self.screen.blit(self.sol, self.sol_pos)
