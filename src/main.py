@@ -23,11 +23,14 @@ while running_global:
         if event.type == pygame.QUIT:
             running_global = False
         elif event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_SPACE:
-                if not played:
-                    mode = M_game
-                    played = True
+            if event.key == pygame.K_SPACE and played:
+                M_game.space()
 
+        elif pygame.mouse.get_pressed() == (1, 0, 0) and not played:
+            mouse_pos = pygame.mouse.get_pos()
+            if M_menu.button_pressed(mouse_pos):
+                mode = M_game
+                played = True
                 M_game.space()
 
     pygame.display.flip()

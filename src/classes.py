@@ -14,7 +14,7 @@ class Player(pygame.sprite.Sprite):
         self.image = pygame.image.load("../assets/img/yellowbird-midflap.png").convert_alpha()
         self.rect = self.image.get_rect()
         self.rect.centerx = round(self.largeur / 3)
-        self.rect.centery = round(self.hauteur / 3)
+        self.rect.centery = round(self.hauteur / 2)
 
         self.vitesse_vertical = 0
         self.angle = 0
