@@ -1,5 +1,3 @@
-import pygame.image
-
 from classes import *
 from random import choice
 pygame.init()

@@ -1,4 +1,4 @@
-# version 1.0
+# version 1.1
 # release date : 23/06/2025 (dd/mm/yyyy)
 
 
