@@ -1,3 +1,7 @@
+# version 1.0
+# release date : 23/06/2025 (dd/mm/yyyy)
+
+
 from game import *
 pygame.init()
 
