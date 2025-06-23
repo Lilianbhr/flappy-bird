@@ -1,9 +1,12 @@
+import pygame.image
+
 from classes import *
 from random import choice
 pygame.init()
 
 # Couleurs
 blanc = pygame.Color(255, 255, 255)
+noir = pygame.Color(0, 0, 0)
 
 # Variables globales
 gap = 150
@@ -138,3 +141,26 @@ class Game():
 
     def space(self):
         self.player.flap()
+
+
+class Game_over():
+    def __init__(self, screen, largeur, hauteur, score):
+        self.screen = screen
+        self.largeur = largeur
+        self.hauteur = hauteur
+        self.score = score
+
+        self.image = pygame.image.load("../assets/img/game-over.png").convert_alpha()
+        self.image = pygame.transform.scale(self.image, (400, 130))
+        self.img_pos = self.image.get_rect(centerx=round(self.largeur/2), centery=round(self.hauteur/3))
+
+        self.font = pygame.font.Font("../assets/font/Jersey15-Regular.ttf", 100)
+        self.texte = self.font.render(f"{self.score}", True, blanc)
+        self.txt_pos = self.texte.get_rect(centerx=round(self.largeur/2), centery=round(self.hauteur*2/3))
+
+    def run(self):
+        self.screen.fill(noir)
+        self.screen.blit(self.image, self.img_pos)
+        self.screen.blit(self.texte, self.txt_pos)
+        pygame.display.flip()
+        pygame.time.wait(3000)

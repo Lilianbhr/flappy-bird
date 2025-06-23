@@ -17,10 +17,12 @@ while running_global:
 
     if type(mode) == Game:
         if mode.player.game_over:
+            mode = Game_over(screen, largeur, hauteur, mode.player.score)
             all_sprites.empty()
+            mode.run()
             mode = Menu(screen, largeur, hauteur)
             played = False
-            pygame.time.wait(1000)
+
     mode.run()
 
     for event in pygame.event.get():
